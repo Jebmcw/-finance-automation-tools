@@ -16,22 +16,22 @@ This checklist breaks down your first week of development into focused, step-by-
 
 ## 🔍 GL vs AP Reconciliation
 
-- [ ] **Create `reconcile_gl_vs_ap.py`**
-  - [ ] Group `gl_entries` by `account + period`
-  - [ ] Group `ap_entries` by `account + period` where `status == 'posted'`
-  - [ ] Compare totals and show mismatches
-  - [ ] Print summary of matched vs unmatched
-  - [ ] Save differences to a new `.csv` file
+- [x] **Create `reconcile_gl_vs_ap.py`**
+  - [x] Group `gl_entries` by `account + period`
+  - [x] Group `ap_entries` by `account + period` where `status == 'posted'`
+  - [x] Compare totals and show mismatches
+  - [x] Print summary of matched vs unmatched
+  - [x] Save differences to a new `.csv` file
 
 ---
 
 ## 💵 Bank vs Book Reconciliation
 
-- [ ] **Create `reconcile_bank_vs_book.py`**
-  - [ ] Match entries by `bank_account`, `amount ± 0.01`, and `txn_date ± 3 days`
-  - [ ] Identify unmatched rows in each dataset
-  - [ ] Show total matched and unmatched amounts
-  - [ ] Export unmatched rows to a `.csv` file
+- [x] **Create `reconcile_bank_vs_book.py`**
+  - [x] Match entries by `bank_account`, `amount ± 0.01`, and `txn_date ± 3 days`
+  - [x] Identify unmatched rows in each dataset
+  - [x] Show total matched and unmatched amounts
+  - [x] Export unmatched rows to a `.csv` file
 
 ---
 
@@ -65,3 +65,55 @@ This checklist breaks down your first week of development into focused, step-by-
 Track this checklist in VS Code using Markdown Preview or Markdown extensions like:
 - Markdown All in One
 - Todo Tree
+
+
+---
+
+## 💡 VS Code Extensions for Managing This Checklist
+
+To track progress inside VS Code without switching tools:
+
+### ✅ Recommended Extensions
+
+- **Markdown All in One**  
+  Adds checkbox support, live preview, keyboard shortcuts  
+  👉 `yzhang.markdown-all-in-one`
+
+- **Todo Tree**  
+  Scans your codebase for `TODO`, `FIXME`, etc., and shows them in a sidebar  
+  👉 `Gruntfuggly.todo-tree`
+
+With these, you can check tasks off live as you go — no switching apps or tools.
+
+---
+
+---
+
+## 🗄️ Oracle Database Integration (Post-Week 1 Planning)
+
+- [ ] Set up a **local Oracle database** instance (XE or full)
+- [ ] Create tables that mirror each `.csv` file schema
+- [ ] Import all CSV files into Oracle tables using Python or SQL*Loader
+- [ ] Build Flask integration using `cx_Oracle` or `SQLAlchemy + cx_Oracle`
+- [ ] When Flask AI assistant is ready, use it to read/update the Oracle DB automatically
+- [ ] Add `.env` or config file for secure DB credentials
+
+This will replace CSV files with a real database as the backend once logic is verified.
+
+---
+
+## 🤖 AI Assistant Development Roadmap
+
+- [ ] **Phase 1:** Build Flask AI assistant that works **only with CSV files**
+  - [ ] Accept natural language input via a Flask route or CLI
+  - [ ] Use OpenAI to detect mismatches or suggest changes
+  - [ ] Automatically update the correct `.csv` file based on logic
+  - [ ] Save a log of AI-generated changes for review
+
+- [ ] **Phase 2:** Extend AI assistant to work with **local Oracle database**
+  - [ ] Read records from Oracle instead of `.csv`
+  - [ ] Perform the same reconciliation or update logic
+  - [ ] Commit changes back to the Oracle database
+  - [ ] Retain safety checks and change logs
+
+This lets you start fast with file-based automation, then upgrade to full database integration once logic is tested and stable.
