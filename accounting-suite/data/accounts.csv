@@ -1,0 +1,4 @@
+account_id,name,type,parent_id
+1000,Cash,Asset,
+2000,Accounts Payable,Liability,
+3000,Revenue,Revenue,
