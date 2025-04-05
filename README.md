@@ -1,6 +1,6 @@
 # Accounting Reconciliation & Reporting Suite
 
-This is a modular Python project that simulates core enterprise accounting workflows using mock data. It focuses on reconciliation, reporting, and optional AI-assisted queries to emulate real-world systems like those used at Weatherford and similar enterprise environments.
+This is a modular Python project that simulates enterprise-level accounting reconciliation tasks using mock data. It targets the key issues faced by accounting teams (like at Weatherford), including manual reconciliations, poor variance visibility, and lack of automation.
 
 ---
 
@@ -8,96 +8,108 @@ This is a modular Python project that simulates core enterprise accounting workf
 
 ```
 accounting-suite/
-├── app/                      # Core application logic
+├── app/
 │   ├── __init__.py
-│   ├── reconciliation.py     # Reconciliation logic (GL vs AP, Bank, Budget)
-│   ├── ai_interface.py       # OpenAI query processing
-│   └── database.py           # DB setup and utility functions
-├── data/                     # Mock data CSVs
+│   ├── reconciliation.py
+│   ├── ai_interface.py
+│   └── database.py
+├── data/
 │   ├── gl_entries.csv
 │   ├── ap_entries.csv
 │   ├── bank_txns.csv
+│   ├── book_cash.csv
 │   ├── budgets.csv
 │   ├── actuals.csv
 │   └── accounts.csv
-├── notebooks/                # Jupyter notebooks for data exploration
-├── static/                   # For future frontend assets
-├── templates/                # HTML templates (optional for Flask UI)
-├── main.py                   # Flask app entry point
-├── requirements.txt          # Python dependencies
+├── generate_data/
+│   ├── generate_data_gl.py
+│   ├── generate_data_ap_entries.py
+│   ├── generate_data_bank_txns.py
+│   ├── generate_data_book_cash.py
+│   ├── generate_data_budgets.py
+│   ├── generate_data_actuals.py
+│   └── generate_data_accounts.py
+├── notebooks/
+├── static/
+├── templates/
+├── main.py
+├── requirements.txt
+└── README.md
+├── app/
+│   ├── __init__.py
+│   ├── reconciliation.py
+│   ├── ai_interface.py
+│   └── database.py
+├── data/
+│   ├── gl_entries.csv
+│   ├── ap_entries.csv
+│   ├── bank_txns.csv
+│   ├── book_cash.csv
+│   ├── budgets.csv
+│   ├── actuals.csv
+│   └── accounts.csv
+├── notebooks/
+├── static/
+├── templates/
+├── main.py
+├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## 📌 2-Day MVP Plan
+## 📌 What This Project Solves
 
-### Core Features
-- [x] Reconcile GL vs AP
-- [x] Reconcile Bank vs Book Cash
-- [x] Compare Budget vs Actuals
-- [x] Chart of Accounts setup
-- [x] Basic Flask API (e.g., `/reconcile`, `/summary`)
-- [x] Optional: AI interface for natural-language queries
-
-### Tools & Libraries
-- Python 3.10+
-- Flask
-- Pandas
-- SQLite (or PostgreSQL for later scaling)
-- OpenAI API (for natural language input)
-- Jinja2 (optional, if you build a frontend)
-
-Install with:
-```
-pip install -r requirements.txt
-```
+- Reconciliation between GL and subsystems (e.g., AP)
+- Bank reconciliation (book cash vs. bank transactions)
+- Budget vs. Actual variance tracking
+- Dataset setup for automation
+- Foundation for integrating AI and dashboard tools (like Power BI)
 
 ---
 
-## 📈 Example Endpoints
+## ✅ Week 1 Sprint Plan: Start Here
 
-- `POST /reconcile`  
-  Trigger reconciliation by module (e.g., "bank", "ap_gl").
+### 🎯 Goal: Get data loaded and basic accounting checks working.
 
-- `POST /ai-query`  
-  Accepts natural-language prompts to generate SQL or explain variances.
+| Task | What You Do |
+|------|-------------|
+| ✅ `explore_data.py` | Load CSVs and print counts, totals, and sample rows |
+| ⏳ `reconcile_gl_vs_ap.py` | Compare AP totals to GL AP account by period |
+| ⏳ `reconcile_bank_vs_book.py` | Match bank vs. book entries by amount + date |
+| ⏳ `variance_budget_actual.py` | Compare budget vs. actual by cost center/account |
+| ⏳ `main.py` | Runs the 3 scripts above from one place |
 
----
-
-## 🚀 Future Plans (Stretch Goals)
-
-- Fixed Assets tracking + depreciation logic
-- Inventory module with item flow + cost tracking
-- Intercompany reconciliation and elimination logic
-- Change management tracking (audit logs, approval workflow)
-- Frontend interface (React or HTML templates)
-- Export reports to Excel or PDF
-- Role-based access/authentication
-
----
-
-## 📞 Contact
-
-For demo or collaboration inquiries, contact: *Your Name / Email*
-
-
+This gives you a working demo for common pain points using real logic.
 
 ---
 
 ## ⚙️ Automation Design
 
-This project is intended to run **locally on your computer** as a Flask app or script. Most key accounting tasks can be automated with a **single button press** from a simple UI or script command.
+This project runs **locally** on your computer and is designed to allow **one-click execution** via script or UI.
 
-### 🔘 Button Automation Overview
+| Task                        | Button Does...                                   |
+|----------------------------|--------------------------------------------------|
+| Reconcile GL vs AP         | Run a check between GL totals and AP postings    |
+| Reconcile Bank vs Book     | Match book cash vs bank statement                |
+| Budget vs Actuals Report   | Show over/under budget per account/period        |
+| Load Mock Data             | Auto-load CSVs into memory or DB                 |
+| (Optional) AI Interface    | Use GPT-4 to explain mismatches or generate SQL  |
 
-| Task                        | Automation Description                            |
-|----------------------------|----------------------------------------------------|
-| Reconcile GL vs AP         | 🔘 One-click to compare GL and AP summaries        |
-| Reconcile Bank vs Book     | 🔘 One-click to match bank vs internal transactions|
-| Budget vs Actuals Report   | 🔘 One-click to generate variance report           |
-| AI Query Interface         | 🔘 Ask natural questions, get structured responses |
-| Load Mock Data             | 🔘 Auto-load sample CSVs into the database         |
+---
 
-You can later build a small web UI or CLI interface where each function runs at the push of a button.
+## 🔮 Future Features (Stretch Goals)
 
+- Add fixed asset depreciation logic
+- Inventory and asset management mock logic
+- Intercompany balances + eliminations
+- Change management logging
+- Frontend UI (Flask or React)
+- Power BI integration
+- AI-enhanced accounting Q&A
+
+---
+
+## 📞 Contact
+
+For questions or demo inquiries: *Your Name / Email*
