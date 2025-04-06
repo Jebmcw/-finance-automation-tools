@@ -54,38 +54,21 @@ This checklist breaks down your first week of development into focused, step-by-
 
 ---
 
-## 🧹 Output Management
+## 🖥️ APP: Local Reconciliation Viewer
 
-- [ ] Create `data/outputs/` folder (if needed)
-- [ ] Save all result `.csv` files there
-- [ ] Keep results named by module and date (e.g., `bank_recon_results_2024-04-05.csv`)
+Build a lightweight local desktop app (using **Tkinter**, **Flask**, or **Electron/React**) that does the following:
 
----
+- [ ] Load local datasets from `data/`
+- [ ] Run reconciliation logic (GL vs AP, Bank vs Book, Budget vs Actuals)
+- [ ] Display mismatches in a clean **UI table**
+- [ ] Add a **"Run Reconciliation"** button
+- [ ] (Optional) Export results to CSV or visualize as a chart
+- [ ] Future: Integrate with Oracle database instead of local CSV
 
-Track this checklist in VS Code using Markdown Preview or Markdown extensions like:
-- Markdown All in One
-- Todo Tree
-
-
----
-
-## 💡 VS Code Extensions for Managing This Checklist
-
-To track progress inside VS Code without switching tools:
-
-### ✅ Recommended Extensions
-
-- **Markdown All in One**  
-  Adds checkbox support, live preview, keyboard shortcuts  
-  👉 `yzhang.markdown-all-in-one`
-
-- **Todo Tree**  
-  Scans your codebase for `TODO`, `FIXME`, etc., and shows them in a sidebar  
-  👉 `Gruntfuggly.todo-tree`
-
-With these, you can check tasks off live as you go — no switching apps or tools.
+📌 Purpose: Help accountants quickly **see, understand, and resolve mismatches** without using the command line.
 
 ---
+
 
 ---
 
