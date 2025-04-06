@@ -85,13 +85,27 @@ python app/main.py
 
 ---
 
-## 💡 Future Add-ons
+### 💡 Future Add-ons & AI Roadmap
+## 🔧 Phase 1: Local AI Assistant (CSV-based)
+- Reads datasets from the codebase (data/*.csv)
+- Compares, detects mismatches, and auto-aligns values across related files
+- Generates detailed mismatch reports and corrections
 
-- Flask/React UI
-- Oracle DB integration
-- AI interface to explain mismatches
-- Power BI dashboards
-- Asset & inventory accounting modules
+## 🛢️ Phase 2: Oracle DB Integration
+- Mirror all CSV structures as Oracle tables
+- Load CSVs into Oracle via Python or SQL*Loader
+- AI shifts from file-based reconciliation to querying Oracle directly
+- Automatically updates mismatched records inside the database
+
+## 🧠 Phase 3: Intelligent Correction Engine
+- AI assistant explains why mismatches occurred
+- Offers human-readable reasoning before correction
+- Writes back changes with logs and traceability
+
+## 📊 Optional Future UI
+- Power BI for dashboards
+- Flask or React frontend for local interaction
+- Button-based execution and reporting interface
 
 ---
 
