@@ -6,7 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from reconciliation.gl_vs_ap import run_gl_vs_ap_reconciliation
 from reconciliation.bank_vs_book import run_bank_vs_book_reconciliation
-from Budget.variance_budget_actual import run_budget_vs_actual_variance
+from reconciliation.variance_budget_actual import run_budget_vs_actual_variance
 
 from tabulate import tabulate
 import pandas as pd
