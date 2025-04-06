@@ -1,6 +1,6 @@
-# Accounting Reconciliation & Reporting Suite
+# 📊 Accounting Reconciliation & Reporting Suite
 
-This is a modular Python project that simulates enterprise-level accounting reconciliation tasks using mock data. It targets the key issues faced by accounting teams (like at Weatherford), including manual reconciliations, poor variance visibility, and lack of automation.
+A modular Python project that simulates enterprise-level accounting reconciliation workflows using mock datasets. Designed to reduce manual effort, improve transparency, and build a strong foundation for future automation and AI integration.
 
 ---
 
@@ -9,107 +9,101 @@ This is a modular Python project that simulates enterprise-level accounting reco
 ```
 accounting-suite/
 ├── app/
-│   ├── __init__.py
-│   ├── reconciliation.py
-│   ├── ai_interface.py
-│   └── database.py
+│   ├── main.py                         # One-click execution script
+│   └── reconciliation/                # Reconciliation logic modules
+│       ├── gl_vs_ap.py
+│       └── bank_vs_book.py
+├── Budget/
+│   └── variance_budget_actual.py      # Budget vs Actuals logic
 ├── data/
-│   ├── gl_entries.csv
-│   ├── ap_entries.csv
-│   ├── bank_txns.csv
-│   ├── book_cash.csv
-│   ├── budgets.csv
-│   ├── actuals.csv
-│   └── accounts.csv
-├── generate_data/
-│   ├── generate_data_gl.py
-│   ├── generate_data_ap_entries.py
-│   ├── generate_data_bank_txns.py
-│   ├── generate_data_book_cash.py
-│   ├── generate_data_budgets.py
-│   ├── generate_data_actuals.py
-│   └── generate_data_accounts.py
-├── notebooks/
-├── static/
-├── templates/
-├── main.py
+│   ├── *.csv                          # Input and output data files
+│   ├── outputs/                       # Generated reports
+│   └── pictures/                      # Chart exports
+├── generate_data/                    # Scripts to create fake datasets
+│   └── generate_data_*.py
 ├── requirements.txt
-└── README.md
-├── app/
-│   ├── __init__.py
-│   ├── reconciliation.py
-│   ├── ai_interface.py
-│   └── database.py
-├── data/
-│   ├── gl_entries.csv
-│   ├── ap_entries.csv
-│   ├── bank_txns.csv
-│   ├── book_cash.csv
-│   ├── budgets.csv
-│   ├── actuals.csv
-│   └── accounts.csv
-├── notebooks/
-├── static/
-├── templates/
-├── main.py
-├── requirements.txt
-└── README.md
+├── README.md
+└── TODO.md
 ```
 
 ---
 
-## 📌 What This Project Solves
+## ✅ Features
 
-- Reconciliation between GL and subsystems (e.g., AP)
-- Bank reconciliation (book cash vs. bank transactions)
-- Budget vs. Actual variance tracking
-- Dataset setup for automation
-- Foundation for integrating AI and dashboard tools (like Power BI)
+- **GL vs AP Reconciliation**  
+  Match general ledger entries against posted accounts payable totals.
 
----
+- **Bank vs Book Reconciliation**  
+  Match internal cash records with external bank transactions based on date and amount tolerances.
 
-## ✅ Week 1 Sprint Plan: Start Here
+- **Budget vs Actual Variance**  
+  Compare budgeted vs actual spend by account, cost center, and period. Flags large variances.
 
-### 🎯 Goal: Get data loaded and basic accounting checks working.
-
-| Task | What You Do |
-|------|-------------|
-| ✅ `explore_data.py` | Load CSVs and print counts, totals, and sample rows |
-| ⏳ `reconcile_gl_vs_ap.py` | Compare AP totals to GL AP account by period |
-| ⏳ `reconcile_bank_vs_book.py` | Match bank vs. book entries by amount + date |
-| ⏳ `variance_budget_actual.py` | Compare budget vs. actual by cost center/account |
-| ⏳ `main.py` | Runs the 3 scripts above from one place |
-
-This gives you a working demo for common pain points using real logic.
+- **One-click Automation (`main.py`)**  
+  Runs all reconciliations and outputs a table summary, CSV report, and variance chart.
 
 ---
 
-## ⚙️ Automation Design
+## 🚀 How to Run
 
-This project runs **locally** on your computer and is designed to allow **one-click execution** via script or UI.
+1. Clone the repo and navigate to the root.
+2. (Optional) Create a virtual environment.
+3. Install dependencies:
 
-| Task                        | Button Does...                                   |
-|----------------------------|--------------------------------------------------|
-| Reconcile GL vs AP         | Run a check between GL totals and AP postings    |
-| Reconcile Bank vs Book     | Match book cash vs bank statement                |
-| Budget vs Actuals Report   | Show over/under budget per account/period        |
-| Load Mock Data             | Auto-load CSVs into memory or DB                 |
-| (Optional) AI Interface    | Use GPT-4 to explain mismatches or generate SQL  |
+```bash
+pip install -r requirements.txt
+```
 
----
+4. Run everything in one go:
 
-## 🔮 Future Features (Stretch Goals)
-
-- Add fixed asset depreciation logic
-- Inventory and asset management mock logic
-- Intercompany balances + eliminations
-- Change management logging
-- Frontend UI (Flask or React)
-- Power BI integration
-- AI-enhanced accounting Q&A
+```bash
+python app/main.py
+```
 
 ---
 
-## 📞 Contact
+## 📦 Outputs
 
-For questions or demo inquiries: *Your Name / Email*
+- 📁 `data/outputs/`  
+  Contains CSV files for mismatches, variances, and the summary report.
+
+- 📁 `data/pictures/`  
+  Contains saved charts (e.g. reconciliation_chart.png)
+
+---
+
+## 📅 Sprint 1 Checklist
+
+| Task                       | Status |
+|----------------------------|--------|
+| Data Generation Scripts    | ✅     |
+| GL vs AP Reconciliation    | ✅     |
+| Bank vs Book Reconciliation| ✅     |
+| Budget vs Actual Variance  | ✅     |
+| One-click Runner (main.py) | ✅     |
+| Summary Report & Chart     | ✅     |
+
+---
+
+## 💡 Future Add-ons
+
+- Flask/React UI
+- Oracle DB integration
+- AI interface to explain mismatches
+- Power BI dashboards
+- Asset & inventory accounting modules
+
+---
+
+## 🤝 Contact
+
+For questions or feedback: *[Your Name or GitHub handle]*  
+
+
+---
+
+## 📈 Sample Output Chart
+
+This chart shows the number of unmatched or flagged records from each module:
+
+![Reconciliation Chart](data/pictures/reconciliation_chart.png)

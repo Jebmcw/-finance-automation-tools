@@ -37,20 +37,20 @@ This checklist breaks down your first week of development into focused, step-by-
 
 ## 📊 Budget vs Actuals Variance
 
-- [ ] **Create `variance_budget_actual.py`**
-  - [ ] Group `budgets.csv` by `account + period + cost_center`
-  - [ ] Group `actuals.csv` by the same keys
-  - [ ] Calculate variance and % variance
-  - [ ] Flag large variances and save to `.csv`
+- [x] **Create `variance_budget_actual.py`**
+  - [x] Group `budgets.csv` by `account + period + cost_center`
+  - [x] Group `actuals.csv` by the same keys
+  - [x] Calculate variance and % variance
+  - [x] Flag large variances and save to `.csv`
 
 ---
 
 ## 🧪 One-Click Execution Script
 
-- [ ] **Update or create `main.py`**
-  - [ ] Add functions to call each reconciliation script
-  - [ ] Print clean, readable summaries for each module
-  - [ ] Optional: prompt user for module to run
+- [x] **Update or create `main.py`**
+  - [x] Add functions to call each reconciliation script
+  - [x] Print clean, readable summaries for each module
+  - [x] Optional: prompt user for module to run
 
 ---
 
