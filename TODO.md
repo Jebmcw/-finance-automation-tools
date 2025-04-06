@@ -54,49 +54,106 @@ This checklist breaks down your first week of development into focused, step-by-
 
 ---
 
-## 🖥️ APP: Local Reconciliation Viewer
+# 🤖 AI-Powered Accounting Reconciliation Roadmap
 
-Build a lightweight local desktop app (using **Tkinter**, **Flask**, or **Electron/React**) that does the following:
+A clear plan to evolve from a local CSV-based reconciliation app to an AI-driven, Oracle-integrated enterprise tool.
 
-- [ ] Load local datasets from `data/`
-- [ ] Run reconciliation logic (GL vs AP, Bank vs Book, Budget vs Actuals)
-- [ ] Display mismatches in a clean **UI table**
-- [ ] Add a **"Run Reconciliation"** button
-- [ ] (Optional) Export results to CSV or visualize as a chart
-- [ ] Future: Integrate with Oracle database instead of local CSV
+---
 
-📌 Purpose: Help accountants quickly **see, understand, and resolve mismatches** without using the command line.
+## 🧱 Phase 1: Build the Local Reconciliation App
+
+🔨 Goal: Create a simple desktop or Flask app that:
+
+- [ ] Loads local datasets from the `data/` folder
+- [ ] Runs existing reconciliation logic (GL vs AP, Bank vs Book, Budget vs Actual)
+- [ ] Prints mismatches as plain text or table output
+- [ ] Has a **"Run Reconciliation"** button
+- [ ] Helps users manually inspect results
+
+📌 This is the foundation — just view mismatches in a simple UI.
+
+---
+
+## 🤖 Phase 2: Build AI Assistant to Read CSV Files
+
+🧠 Goal: Make a local Python-based assistant that:
+
+- [ ] Reads datasets in `/data/*.csv`
+- [ ] When launched, says **“Yes, I read this”** for each file
+- [ ] Doesn’t do analysis yet — just proves file input works
+- [ ] Logs what files were read and basic stats (rows, columns)
+
+📌 Verifies AI input is working properly in a testable, observable way.
+
+---
+
+## 🧠 Phase 3: Enable AI to Compare and Reconcile CSVs
+
+🛠️ Now evolve the AI assistant to:
+
+- [ ] Analyze mismatches across CSV files
+- [ ] Use existing rules (e.g., GL vs AP by account/period)
+- [ ] Suggest corrections or auto-adjust datasets to match
+- [ ] Write fixed datasets to `outputs/` and log changes to `outputs/ai_log.csv`
+
+📌 This is the logic core — AI begins doing real accounting cleanup locally.
+
+---
+
+## 🖥️ Phase 4: Add AI into Local App
+
+🎛️ Goal: Bring the AI directly into your local app:
+
+- [ ] Embed the assistant into the interface
+- [ ] When AI reads CSVs, show **“✅ AI read X rows from gl_entries.csv”**
+- [ ] When mismatches are fixed, show:
+  ```
+  - AI fixed 6 mismatches between GL and AP
+  - 3 records updated in gl_entries.csv
+  ```
+- [ ] Optionally display diffs or changes in a table
+
+📌 No command line needed — full AI reconciliation from a single button.
+
+---
+
+## 🗄️ Phase 5: Build Local Oracle Database
+
+🧱 Goal: Create a real database backend to replace CSVs:
+
+- [ ] Use Oracle XE or local Docker Oracle
+- [ ] Create tables that match `data/*.csv` schemas
+- [ ] Import existing CSVs into those tables
+- [ ] Validate data and allow SELECT queries
+
+📌 This sets the stage for enterprise-scale data reconciliation.
+
+---
+
+## 🔄 Phase 6: Upgrade AI to Query Oracle
+
+🧠 Now teach the assistant to:
+
+- [ ] Use SQLAlchemy or cx_Oracle to connect to Oracle DB
+- [ ] Fetch data from tables instead of reading CSVs
+- [ ] Print something like **“✅ Pulled 1,000 rows from oracle.gl_entries”**
+- [ ] Print that data to prove access works
+
+📌 Verifies that the AI can talk to your actual accounting backend.
+
+---
+
+## 🧠 Phase 7: AI Reconciliation Against Oracle DB
+
+The final level: make the AI fix Oracle data!
+
+- [ ] AI compares Oracle data across modules
+- [ ] Suggests or applies changes via SQL UPDATE
+- [ ] All changes logged to `oracle_logs/ai_fixes.sql`
+- [ ] Can run in sandbox mode before committing
+
+📌 This is the full AI + DB + App loop — the vision of self-healing accounting pipelines.
 
 ---
 
 
----
-
-## 🗄️ Oracle Database Integration (Post-Week 1 Planning)
-
-- [ ] Set up a **local Oracle database** instance (XE or full)
-- [ ] Create tables that mirror each `.csv` file schema
-- [ ] Import all CSV files into Oracle tables using Python or SQL*Loader
-- [ ] Build Flask integration using `cx_Oracle` or `SQLAlchemy + cx_Oracle`
-- [ ] When Flask AI assistant is ready, use it to read/update the Oracle DB automatically
-- [ ] Add `.env` or config file for secure DB credentials
-
-This will replace CSV files with a real database as the backend once logic is verified.
-
----
-
-## 🤖 AI Assistant Development Roadmap
-
-- [ ] **Phase 1:** Build Flask AI assistant that works **only with CSV files**
-  - [ ] Accept natural language input via a Flask route or CLI
-  - [ ] Use OpenAI to detect mismatches or suggest changes
-  - [ ] Automatically update the correct `.csv` file based on logic
-  - [ ] Save a log of AI-generated changes for review
-
-- [ ] **Phase 2:** Extend AI assistant to work with **local Oracle database**
-  - [ ] Read records from Oracle instead of `.csv`
-  - [ ] Perform the same reconciliation or update logic
-  - [ ] Commit changes back to the Oracle database
-  - [ ] Retain safety checks and change logs
-
-This lets you start fast with file-based automation, then upgrade to full database integration once logic is tested and stable.
