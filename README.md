@@ -106,4 +106,4 @@ For questions or feedback: *[Your Name or GitHub handle]*
 
 This chart shows the number of unmatched or flagged records from each module:
 
-![Reconciliation Chart](data/pictures/reconciliation_chart.png)
+![Reconciliation Chart](accounting-suite/data/pictures/reconciliation_chart.png)
