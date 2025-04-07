@@ -6,9 +6,9 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # Import reconciliation functions
 
-from reconciliation.gl_vs_ap import run_gl_vs_ap_reconciliation
-from reconciliation.bank_vs_book import run_bank_vs_book_reconciliation
-from reconciliation.variance_budget_actual import run_budget_vs_actual_variance
+from generate_reconciliation.gl_vs_ap import run_gl_vs_ap_reconciliation
+from generate_reconciliation.bank_vs_book import run_bank_vs_book_reconciliation
+from generate_reconciliation.variance_budget_actual import run_budget_vs_actual_variance
 
 app = Flask(__name__)
 
@@ -30,7 +30,7 @@ def index():
         if "chart_path" in request.form:
             chart_filename = "reconciliation_chart.png"
         if "summary_path" in request.form:
-            summary_filename="reconciliation_summary.png"
+            summary_filename="summary_table.png"
 
     return render_template(
         "index.html",

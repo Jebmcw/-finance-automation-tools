@@ -1,4 +1,4 @@
-Module,Matched,Unmatched/Flagged,Output File
-GL vs AP,0,100,accounting-suite/data/outputs/gl_vs_ap_match_report_2025-04-06.csv
-Bank vs Book,0,100,accounting-suite/data/outputs/bank_vs_book_match_report_2025-04-06.csv
-Budget vs Actual,0,100,accounting-suite/data/outputs/gl_vs_ap_match_report_2025-04-06.csv
+Module,Matched,Unmatched/Flagged
+GL vs AP,0,100
+Bank vs Book,0,100
+Budget vs Actual,0,100

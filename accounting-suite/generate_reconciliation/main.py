@@ -8,6 +8,7 @@ from variance_budget_actual import run_budget_vs_actual_variance
 
 from tabulate import tabulate
 import pandas as pd
+import numpy as np 
 import matplotlib.pyplot as plt
 
 def run_all_modules():
@@ -20,16 +21,15 @@ def run_all_modules():
     summary.append([
         "GL vs AP",
         gl_ap['matched'],
-        gl_ap['mismatched'],
-        gl_ap['output_file']
+        gl_ap['mismatched']
     ])
 
     bank_book = run_bank_vs_book_reconciliation()
     summary.append([
         "Bank vs Book",
         bank_book['matched_count'],
-        bank_book['unmatched_count'],
-        bank_book['output_file']
+        bank_book['unmatched_count']
+       
     ])
 
     # === Budget vs Actuals Variance ===
@@ -37,22 +37,25 @@ def run_all_modules():
     summary.append([
         "Budget vs Actual",
         budget['matched'],
-        budget['mismatched'],
-        budget['output_file']
+        budget['mismatched']
+       
     ])
 
     # === Print as Table ===
     print("\n📊 Reconciliation Summary\n")
-    print(tabulate(summary, headers=["Module", "Matched", "Unmatched/Flagged", "Output File"], tablefmt="grid"))
+    print(tabulate(summary, headers=["Module", "Matched", "Unmatched/Flagged"], tablefmt="grid"))
 
     # === Save as CSV ===
-    summary_df = pd.DataFrame(summary, columns=["Module", "Matched", "Unmatched/Flagged", "Output File"])
+    summary_df = pd.DataFrame(summary, columns=["Module", "Matched", "Unmatched/Flagged"])
     csv_path = "accounting-suite/data/outputs/summary_report.csv"
     summary_df.to_csv(csv_path, index=False)
-    print(f"\n[✓] Summary saved to {csv_path}")
-
+    
+    
     # === Bar Chart ===
     show_bar_chart(summary)
+
+    # Table 
+    show_table(summary)
 
 def show_bar_chart(summary_data):
     modules = [row[0] for row in summary_data]
@@ -76,6 +79,21 @@ def show_bar_chart(summary_data):
     filename = os.path.join(pictures_dir, "reconciliation_chart.png")
     plt.savefig(filename)
     print(f"[✓] Chart saved to {filename}")
+    plt.close()
+
+def show_table(data, output_path="accounting-suite/main_app/static/summary_table.png"):
+    headers = ["Module", "Matched", "Unmatched/Flagged"]
+
+    fig, ax = plt.subplots(figsize=(6, 0.6 * len(data) + 1))
+    ax.axis('off')
+
+    table = ax.table(cellText=data, colLabels=headers, cellLoc='center', loc='center')
+
+    table.auto_set_font_size(False)
+    table.set_fontsize(10)
+    table.scale(1, 1.5)
+
+    plt.savefig(output_path, bbox_inches='tight', dpi=300)
     plt.close()
     
 if __name__ == "__main__":

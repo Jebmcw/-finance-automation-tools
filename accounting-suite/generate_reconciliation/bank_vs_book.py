@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 
 def run_bank_vs_book_reconciliation(
+    verbose=True,
     data_dir="accounting-suite/data",
     output_dir="accounting-suite/data/outputs",
     amount_tolerance=5.00
@@ -47,8 +48,10 @@ def run_bank_vs_book_reconciliation(
 
     # Save to CSV
     final_df.to_csv(output_file, index=False)
-    print(f"[✓] Match report saved to: {output_file}")
-
+    
+    if verbose:
+        print(f"[✓] Match report saved to: {output_file}")
+        
     return {
         "total_entries": len(final_df),
         "matched_count": (final_df["Matched?"] == "Yes").sum(),
