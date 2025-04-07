@@ -1,22 +1,33 @@
 import pandas as pd
 import random
-from datetime import datetime, timedelta
+import os
 
-def random_date(start, end):
-    return start + timedelta(days=random.randint(0, (end - start).days))
+def generate_gl_entries_from_ap(
+    ap_path="accounting-suite/data/ap_entries.csv",
+    gl_output_path="accounting-suite/data/gl_entries.csv",
+    noise_range=(-50.00, 50.00)  # how much to offset the amount
+):
+    os.makedirs(os.path.dirname(gl_output_path), exist_ok=True)
 
-def generate_gl_entries(n=100):
-    accounts = ['1000', '2000', '3000']
-    data = []
-    for _ in range(n):
-        data.append({
-            'id': _ + 1,
-            'account': random.choice(accounts),
-            'company_code': random.choice(['1100', '1200']),
-            'amount': round(random.uniform(-10000, 10000), 2),
-            'period': random.choice(['2024-01', '2024-02', '2024-03']),
+    # Load AP entries
+    ap_df = pd.read_csv(ap_path)
+
+    # Create GL entries from AP entries
+    gl_rows = []
+    for _, row in ap_df.iterrows():
+        noisy_amount = round(row['amount'] + random.uniform(*noise_range), 2)
+        gl_rows.append({
+            'id': row['id'],
+            'Vender'
+            'account': row['account'],
+            'company_code': row['company_code'],
+            'amount': noisy_amount,
+            'period': row['period']
         })
-    df = pd.DataFrame(data)
-    df.to_csv("accounting-suite/data/gl_entries.csv", index=False)
 
-generate_gl_entries()
+    gl_df = pd.DataFrame(gl_rows)
+    gl_df.to_csv(gl_output_path, index=False)
+    print(f"[✓] Generated GL entries from AP (with mismatched amounts): {gl_output_path}")
+
+if __name__ == "__main__":
+    generate_gl_entries_from_ap()

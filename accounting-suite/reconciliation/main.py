@@ -1,12 +1,10 @@
-# main.py
-
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from reconciliation.gl_vs_ap import run_gl_vs_ap_reconciliation
-from reconciliation.bank_vs_book import run_bank_vs_book_reconciliation
-from reconciliation.variance_budget_actual import run_budget_vs_actual_variance
+from gl_vs_ap import run_gl_vs_ap_reconciliation
+from bank_vs_book import run_bank_vs_book_reconciliation
+from variance_budget_actual import run_budget_vs_actual_variance
 
 from tabulate import tabulate
 import pandas as pd
@@ -26,22 +24,20 @@ def run_all_modules():
         gl_ap['output_file']
     ])
 
-    # === Bank vs Book Reconciliation ===
-    bank = run_bank_vs_book_reconciliation()
-    total_unmatched = bank['bank_unmatched'] + bank['book_unmatched']
+    bank_book = run_bank_vs_book_reconciliation()
     summary.append([
         "Bank vs Book",
-        "-",
-        total_unmatched,
-        f"{bank['output_bank']} / {bank['output_book']}"
+        bank_book['matched_count'],
+        bank_book['unmatched_count'],
+        bank_book['output_file']
     ])
 
     # === Budget vs Actuals Variance ===
     budget = run_budget_vs_actual_variance()
     summary.append([
         "Budget vs Actual",
-        budget['total_records'],
-        budget['flagged_records'],
+        budget['matched'],
+        budget['mismatched'],
         budget['output_file']
     ])
 
@@ -66,14 +62,14 @@ def show_bar_chart(summary_data):
     ]
 
     # === Create pictures folder if not exists ===
-    pictures_dir = "accounting-suite/data/pictures"
+    pictures_dir = "accounting-suite/main_app/static"
     os.makedirs(pictures_dir, exist_ok=True)
 
     # === Plot chart ===
     plt.figure(figsize=(8, 5))
     plt.bar(modules, values)
-    plt.title("Unmatched / Flagged Counts per Module")
-    plt.ylabel("Count")
+    plt.title("Mismatched")
+    plt.ylabel("Total_Number_Mismatched")
     plt.tight_layout()
 
     # === Save to file ===
@@ -84,4 +80,3 @@ def show_bar_chart(summary_data):
     
 if __name__ == "__main__":
     run_all_modules()
-

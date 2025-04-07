@@ -1,43 +1,35 @@
 import pandas as pd
 import random
 import os
-from datetime import datetime, timedelta
 
-def random_date(start, end):
-    return start + timedelta(days=random.randint(0, (end - start).days))
-
-def generate_book_cash(n=100, output_path="accounting-suite/data/book_cash.csv"):
+def generate_book_cash_from_bank(bank_txns_path="accounting-suite/data/bank_txns.csv",
+                                  output_path="accounting-suite/data/book_cash.csv"):
+    # Make sure the output directory exists
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-    bank_accounts = ['WF001', 'JPMC002']
-    descriptions = ['Vendor payment', 'Client deposit', 'Internal transfer', 'Bank fee accrual', 'Manual journal']
-    cleared_flags = ['yes', 'no']
+    # Load the bank transactions
+    if not os.path.exists(bank_txns_path):
+        raise FileNotFoundError(f"Missing bank transactions file at: {bank_txns_path}")
 
-    start_date = datetime(2024, 1, 1)
-    end_date = datetime(2024, 3, 31)
+    bank_df = pd.read_csv(bank_txns_path)
 
-    data = []
-    for i in range(n):
-        amount = round(random.uniform(-5000, 10000), 2)
-        # Inject some internal-only items
-        desc = random.choices(
-            descriptions,
-            weights=[0.3, 0.3, 0.2, 0.1, 0.1],
-            k=1
-        )[0]
-
-        data.append({
-            'id': i + 1,
-            'bank_account': random.choice(bank_accounts),
-            'txn_date': random_date(start_date, end_date).strftime("%Y-%m-%d"),
-            'amount': amount,
-            'description': desc,
-            'cleared_flag': random.choice(cleared_flags),
+    # Modify the amounts and cleared flag
+    book_data = []
+    for _, row in bank_df.iterrows():
+        new_amount = round(row['amount'] + random.uniform(-50, 50), 2)  # Change amount slightly
+        book_data.append({
+            'id': row['id'],
+            'bank_account': row['bank_account'],
+            'txn_date': row['txn_date'],
+            'amount': new_amount,
+            'description': row['description'],
+            'cleared_flag': row['cleared_flag'],
         })
 
-    df = pd.DataFrame(data)
-    df.to_csv(output_path, index=False)
-    print(f"[✓] Generated book cash entries at: {output_path}")
+    # Save to CSV
+    book_df = pd.DataFrame(book_data)
+    book_df.to_csv(output_path, index=False)
+    print(f"[✓] Generated book cash entries from bank txns at: {output_path}")
 
 if __name__ == "__main__":
-    generate_book_cash()
+    generate_book_cash_from_bank()

@@ -2,29 +2,34 @@ import pandas as pd
 import random
 import os
 
-def generate_budgets(n=100, output_path="accounting-suite/data/budgets.csv"):
+def generate_budgets(actual_path="accounting-suite/data/actuals.csv",
+                                  output_path="accounting-suite/data/budget.csv"):
+    # Make sure the output directory exists
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-    cost_centers = ['4400', '4500', '4600']
-    accounts = ['1000', '2000', '3000']
-    periods = ['2024-01', '2024-02', '2024-03']
+    # Load the bank transactions
+    if not os.path.exists(actual_path):
+        raise FileNotFoundError(f"Missing bank transactions file at: {actual_path}")
 
-    data = []
-    for i in range(n):
-        acc = random.choice(accounts)
-        # Revenue is positive, expense/payable accounts are negative
-        amount = round(random.uniform(5000, 20000), 2) if acc == '3000' else round(random.uniform(-15000, -1000), 2)
-        data.append({
-            'id': i + 1,
-            'cost_center': random.choice(cost_centers),
-            'account': acc,
-            'period': random.choice(periods),
-            'budget_amount': amount,
+    actual_df = pd.read_csv(actual_path)
+
+    # Modify the amounts and cleared flag
+    budget_data= []
+    for _, row in actual_df.iterrows():
+        new_amount = round(row['amount'] + random.uniform(-50, 50), 2)  # Change amount slightly
+        budget_data.append({
+            'id': row['id'],
+            'cost_center': row['cost_center'],
+            'account': row['account'],
+            'amount': new_amount,
+            'period': row['period']
         })
 
-    df = pd.DataFrame(data)
-    df.to_csv(output_path, index=False)
-    print(f"[✓] Generated budgets at: {output_path}")
+    # Save to CSV
+    budget_df = pd.DataFrame(budget_data)
+    budget_df.to_csv(output_path, index=False)
+    print(f"[✓] Generated book cash entries from bank txns at: {output_path}")
 
 if __name__ == "__main__":
     generate_budgets()
+

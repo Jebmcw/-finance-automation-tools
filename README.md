@@ -6,27 +6,7 @@ A modular Python project that simulates enterprise-level accounting reconciliati
 
 ## 📁 Project Structure
 
-```
-accounting-suite/
-├── app/
-│   ├── main.py                         # One-click execution script
-│   └── reconciliation/                # Reconciliation logic modules
-│       ├── gl_vs_ap.py
-│       └── bank_vs_book.py
-├── Budget/
-│   └── variance_budget_actual.py      # Budget vs Actuals logic
-├── data/
-│   ├── *.csv                          # Input and output data files
-│   ├── outputs/                       # Generated reports
-│   └── pictures/                      # Chart exports
-├── generate_data/                    # Scripts to create fake datasets
-│   └── generate_data_*.py
-├── requirements.txt
-├── README.md
-└── TODO.md
-```
 
----
 
 ## ✅ Features
 

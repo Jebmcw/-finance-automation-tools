@@ -64,11 +64,11 @@ A clear plan to evolve from a local CSV-based reconciliation app to an AI-driven
 
 🔨 Goal: Create a simple desktop or Flask app that:
 
-- [ ] Loads local datasets from the `data/` folder
-- [ ] Runs existing reconciliation logic (GL vs AP, Bank vs Book, Budget vs Actual)
-- [ ] Prints mismatches as plain text or table output
-- [ ] Has a **"Run Reconciliation"** button
-- [ ] Helps users manually inspect results
+- [x] Loads local datasets from the `data/` folder
+- [x] Runs existing reconciliation logic (GL vs AP, Bank vs Book, Budget vs Actual)
+- [x] Prints mismatches as plain text or table output
+- [x] Has a **"Run Reconciliation"** button
+- [x] Helps users manually inspect results
 
 📌 This is the foundation — just view mismatches in a simple UI.
 
