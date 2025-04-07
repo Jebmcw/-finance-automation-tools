@@ -18,6 +18,7 @@ def get_action_from_prompt(user_prompt):
                     "You are a classifier. Only respond with one of the following action labels:\n"
                     "- bank_vs_book\n"
                     "- gl_vs_ap\n"
+                    "- budget_vs_actual\n"
                     "- unknown"
                 )
             },

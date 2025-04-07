@@ -11,16 +11,15 @@ from generate_reconciliation.bank_vs_book import run_bank_vs_book_reconciliation
 from generate_reconciliation.variance_budget_actual import run_budget_vs_actual_variance
 
 def reconcile_bank_vs_book():
-    #try:
+    try:
         # Redirect stdout to suppress print()
-       # with io.StringIO() as buf, contextlib.redirect_stdout(buf):
-        result = run_bank_vs_book_reconciliation()
-
-        matched = result["matched_count"]
-        mismatched = result["unmatched_count"]
-        return f"Matched: {matched}, Mismatched: {mismatched}"
-   # except Exception as e:
-      #  return f"❌ Failed to get match stats: {e}"
+        with io.StringIO() as buf, contextlib.redirect_stdout(buf):
+            result = run_bank_vs_book_reconciliation()
+        
+        return f"✅ Bank vs Book Reconciliation:\nMatched: {result['matched_count']}, Mismatched: {result['unmatched_count']}"
+    
+    except Exception as e:
+        return f"❌ Failed to get match stats: {e}"
     
 def reconcile_gl_vs_ap():
     try:
@@ -28,10 +27,7 @@ def reconcile_gl_vs_ap():
         with io.StringIO() as buf, contextlib.redirect_stdout(buf):
             result = run_gl_vs_ap_reconciliation()
 
-        matched = result["matched"]
-        mismatched = result["mismatched"]
-        return f"Matched: {matched}, Mismatched: {mismatched}"
-    
+        return f"✅ GL vs AP Reconciliation:\nMatched: {result['matched']}, Mismatched: {result['mismatched']}"
     except Exception as e:
         return f"❌ Failed to get match stats: {e}"
 
@@ -41,16 +37,14 @@ def reconcile_budget_vs_actual():
         with io.StringIO() as buf, contextlib.redirect_stdout(buf):
             result = run_budget_vs_actual_variance()
 
-        matched = result["matched"]
-        mismatched = result["mismatched"]
-        return f"Matched: {matched}, Mismatched: {mismatched}"
+        return f"✅ Budget vs Actual Reconciliation:\nMatched: {result['matched']}, Mismatched: {result['mismatched']}"
     except Exception as e:
         return f"❌ Failed to get match stats: {e}"
 
 
 if __name__ == "__main__":
     print("🧪 Testing bank vs book reconciliation...\n")
-    msg = reconcile_bank_vs_book()
+    msg = reconcile_budget_vs_actual()
     print(msg)
 
 
