@@ -1,45 +1,65 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import sys
 import os
 
+# Add project root to import path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-# Import reconciliation functions
-
-from generate_reconciliation.gl_vs_ap import run_gl_vs_ap_reconciliation
-from generate_reconciliation.bank_vs_book import run_bank_vs_book_reconciliation
-from generate_reconciliation.variance_budget_actual import run_budget_vs_actual_variance
-
+# Import reconciliation logic
+from assistant.prompt_router import get_action_from_prompt
+from assistant.commands_match import match_bank_and_book,match_budget_and_actual,match_gl_and_ap
+from assistant.commands_reconcile import reconcile_bank_vs_book,reconcile_gl_vs_ap,reconcile_budget_vs_actual
+from assistant.commands_chart import reconciliation_chart, summary_table
 app = Flask(__name__)
 
+# In-memory session log (note: not thread-safe in production)
+chat_log = []
+
 @app.route("/", methods=["GET", "POST"])
-def index():
-    gl_ap_result = None
-    bank_book_result = None
-    budget_actual_result = None
-    chart_filename = None
-    summary_filename= None
+def chat():
+    global chat_log
+
+    # Clear chat on refresh
+    if request.method == "GET":
+        chat_log = []
 
     if request.method == "POST":
-        if "gl_ap" in request.form:
-            gl_ap_result = run_gl_vs_ap_reconciliation()
-        if "bank_book" in request.form:
-            bank_book_result = run_bank_vs_book_reconciliation()
-        if "budget_actual" in request.form:
-            budget_actual_result = run_budget_vs_actual_variance()
-        if "chart_path" in request.form:
-            chart_filename = "reconciliation_chart.png"
-        if "summary_path" in request.form:
-            summary_filename="summary_table.png"
+        user_input = request.form.get("message", "").strip()
+        if not user_input:
+            return render_template("chat.html", chat_log=chat_log)
 
-    return render_template(
-        "index.html",
-        gl_ap=gl_ap_result,
-        bank_book=bank_book_result,
-        budget_actual=budget_actual_result,
-        chart_path=chart_filename,
-        summary_path=summary_filename
-    )
+        chat_log.append(f"You: {user_input}")
+        action = get_action_from_prompt(user_input)
+
+        # Action dispatch
+        if action == "bank_vs_book":
+            response = reconcile_bank_vs_book()
+        elif action == "gl_vs_ap":
+            response = reconcile_gl_vs_ap()
+        elif action == "budget_vs_actual":
+            response = reconcile_budget_vs_actual()
+        elif action == "match_book.csv":
+            response = match_bank_and_book()
+        elif action == "match_budget.csv":
+            response = match_budget_and_actual()
+        elif action == "match_gl.csv":
+            response = match_gl_and_ap()
+        elif action == "reconciliation_chart.png":
+            response = reconciliation_chart()
+        elif action =="summary_table.png":
+            response = summary_table()
+        else:
+            response = "🤔 Sorry, I didn’t understand that."
+
+        chat_log.append(f"Assistant: {response}")
+
+    return render_template("chat.html", chat_log=chat_log)
+
+@app.route("/clear", methods=["POST"])
+def clear_chat():
+    global chat_log
+    chat_log = []
+    return redirect(url_for("chat"))
 
 if __name__ == "__main__":
     app.run(debug=True)

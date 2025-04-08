@@ -64,10 +64,6 @@ def show_bar_chart(summary_data):
         for row in summary_data
     ]
 
-    # === Create pictures folder if not exists ===
-    pictures_dir = "accounting-suite/main_app/static"
-    os.makedirs(pictures_dir, exist_ok=True)
-
     # === Plot chart ===
     plt.figure(figsize=(8, 5))
     plt.bar(modules, values)
@@ -76,12 +72,13 @@ def show_bar_chart(summary_data):
     plt.tight_layout()
 
     # === Save to file ===
-    filename = os.path.join(pictures_dir, "reconciliation_chart.png")
-    plt.savefig(filename)
-    print(f"[✓] Chart saved to {filename}")
+    output_path = os.path.join("accounting-suite","main_app", "static", "pictures", "reconciliation_chart.png")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    plt.savefig(output_path)
+    print(f"[✓] Chart saved to {output_path}")
     plt.close()
 
-def show_table(data, output_path="accounting-suite/main_app/static/summary_table.png"):
+def show_table(data):
     headers = ["Module", "Matched", "Unmatched/Flagged"]
 
     fig, ax = plt.subplots(figsize=(6, 0.6 * len(data) + 1))
@@ -93,8 +90,14 @@ def show_table(data, output_path="accounting-suite/main_app/static/summary_table
     table.set_fontsize(10)
     table.scale(1, 1.5)
 
+    output_path = os.path.join("accounting-suite","main_app", "static", "pictures", "summary_table.png")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     plt.savefig(output_path, bbox_inches='tight', dpi=300)
     plt.close()
-    
+
+    return{
+        "output_file": output_path
+    }
+
 if __name__ == "__main__":
     run_all_modules()

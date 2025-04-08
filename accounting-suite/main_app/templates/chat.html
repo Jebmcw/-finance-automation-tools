@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chat Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <h1>💬 Reconciliation Assistant</h1>
+
+        <div class="chat-box">
+            {% for line in chat_log %}
+                {% if "You:" in line %}
+                    <div class="chat-line user">{{ line|replace("You:", "")|safe }}  <span class="timestamp">{{ loop.index }}</span></div>
+                {% else %}
+                    <div class="chat-line">{{ line|replace("Assistant:", "")|safe }} <span class="timestamp">{{ loop.index }}</span></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <form method="POST" class="chat-form">
+            <input type="text" name="message" placeholder="Ask anything..." autocomplete="off" required />
+            <button type="submit">➤</button>
+        </form>
+
+        <form method="POST" action="/clear">
+            <button type="submit" class="clear-button">🧹 Clear Chat</button>
+        </form>
+    </div>
+    <script>
+        const chatBox = document.querySelector('.chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    </script>
+</body>
+</html>

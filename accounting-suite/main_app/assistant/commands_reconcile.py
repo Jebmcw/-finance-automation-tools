@@ -1,4 +1,3 @@
-# assistant/commands.py
 import sys
 import os
 import pandas as pd
@@ -40,13 +39,8 @@ def reconcile_budget_vs_actual():
         return f"✅ Budget vs Actual Reconciliation:\nMatched: {result['matched']}, Mismatched: {result['mismatched']}"
     except Exception as e:
         return f"❌ Failed to get match stats: {e}"
-
-
+    
 if __name__ == "__main__":
     print("🧪 Testing bank vs book reconciliation...\n")
-    msg = reconcile_budget_vs_actual()
+    msg = reconcile_bank_vs_book()
     print(msg)
-
-
-
-
