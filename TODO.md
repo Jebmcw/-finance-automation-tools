@@ -60,7 +60,7 @@ A clear plan to evolve from a local CSV-based reconciliation app to an AI-driven
 
 ---
 
-## 🧱 Phase 1: Build the Local Reconciliation App
+## 🧱 Phase 1: Build the Local Reconciliation Website
 
 🔨 Goal: Create a simple desktop or Flask app that:
 
@@ -78,10 +78,10 @@ A clear plan to evolve from a local CSV-based reconciliation app to an AI-driven
 
 🧠 Goal: Make a local Python-based assistant that:
 
-- [ ] Reads datasets in `/data/*.csv`
-- [ ] When launched, says **“Yes, I read this”** for each file
-- [ ] Doesn’t do analysis yet — just proves file input works
-- [ ] Logs what files were read and basic stats (rows, columns)
+- [x] Reads datasets in `/data/*.csv`
+- [x] When launched, says **“Yes, I read this”** for each file
+- [x] Doesn’t do analysis yet — just proves file input works
+- [x] Logs what files were read and basic stats (rows, columns)
 
 📌 Verifies AI input is working properly in a testable, observable way.
 
@@ -91,27 +91,23 @@ A clear plan to evolve from a local CSV-based reconciliation app to an AI-driven
 
 🛠️ Now evolve the AI assistant to:
 
-- [ ] Analyze mismatches across CSV files
-- [ ] Use existing rules (e.g., GL vs AP by account/period)
-- [ ] Suggest corrections or auto-adjust datasets to match
-- [ ] Write fixed datasets to `outputs/` and log changes to `outputs/ai_log.csv`
+- [x] Analyze mismatches across CSV files
+- [x] Use existing rules (e.g., GL vs AP by account/period)
+- [x] Suggest corrections or auto-adjust datasets to match
+- [x] Write fixed datasets to `outputs/` and log changes to `outputs/ai_log.csv`
 
 📌 This is the logic core — AI begins doing real accounting cleanup locally.
 
 ---
 
-## 🖥️ Phase 4: Add AI into Local App
+## 🖥️ Phase 4: Add AI into Local Website
 
 🎛️ Goal: Bring the AI directly into your local app:
 
-- [ ] Embed the assistant into the interface
-- [ ] When AI reads CSVs, show **“✅ AI read X rows from gl_entries.csv”**
-- [ ] When mismatches are fixed, show:
-  ```
-  - AI fixed 6 mismatches between GL and AP
-  - 3 records updated in gl_entries.csv
-  ```
-- [ ] Optionally display diffs or changes in a table
+- [x] Embed the assistant into the interface
+- [x] When AI reads CSVs, show **“✅ AI read X rows from gl_entries.csv”**
+- [x] When mismatches are fixed, show:
+- [x] Optionally display diffs or changes in a table
 
 📌 No command line needed — full AI reconciliation from a single button.
 
@@ -136,7 +132,6 @@ A clear plan to evolve from a local CSV-based reconciliation app to an AI-driven
 
 - [ ] Use SQLAlchemy or cx_Oracle to connect to Oracle DB
 - [ ] Fetch data from tables instead of reading CSVs
-- [ ] Print something like **“✅ Pulled 1,000 rows from oracle.gl_entries”**
 - [ ] Print that data to prove access works
 
 📌 Verifies that the AI can talk to your actual accounting backend.

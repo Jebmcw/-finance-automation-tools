@@ -1,21 +1,25 @@
 import pandas as pd
 from datetime import datetime
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
+from database.connect import get_oracle_connection  # your working Thin mode connection
 
 def run_gl_vs_ap_reconciliation(
-    data_dir="accounting-suite/data",
-    output_dir="accounting-suite/data/outputs"
+    output_dir="accounting-suite/database/data/outputs"
 ):
     os.makedirs(output_dir, exist_ok=True)
-
-    gl_file = f"{data_dir}/gl_entries.csv"
-    ap_file = f"{data_dir}/ap_entries.csv"
     date_tag = datetime.now().strftime("%Y-%m-%d")
     output_file = f"{output_dir}/gl_vs_ap_match_report_{date_tag}.csv"
 
-    # Load GL and AP files
-    gl_df = pd.read_csv(gl_file)
-    ap_df = pd.read_csv(ap_file)
+    # Load from database
+    conn = get_oracle_connection()
+    ap_df = pd.read_sql("SELECT id, account, company_code, amount FROM ap_entries", conn)
+    ap_df.columns = ap_df.columns.str.lower()  # <-- normalize case
+    gl_df = pd.read_sql("SELECT id, account, company_code, amount FROM gl_entries", conn)
+    gl_df.columns = gl_df.columns.str.lower()  # <-- normalize case
+    conn.close()
 
     # No status filter — compare all AP entries
     # Align both datasets to compare top N rows equally
@@ -57,3 +61,5 @@ def run_gl_vs_ap_reconciliation(
         "total": len(result),
         "output_file": output_file
     }
+if __name__ == "__main__":
+    run_gl_vs_ap_reconciliation()

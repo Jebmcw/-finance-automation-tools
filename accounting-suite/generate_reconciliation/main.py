@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def run_all_modules():
-    os.makedirs("accounting-suite/data/outputs", exist_ok=True)
+    os.makedirs("accounting-suite/database/data/outputs", exist_ok=True)
 
     summary = []
 
@@ -47,7 +47,7 @@ def run_all_modules():
 
     # === Save as CSV ===
     summary_df = pd.DataFrame(summary, columns=["Module", "Matched", "Unmatched/Flagged"])
-    csv_path = "accounting-suite/data/outputs/summary_report.csv"
+    csv_path = "accounting-suite/database/data/outputs/summary_report.csv"
     summary_df.to_csv(csv_path, index=False)
     
     

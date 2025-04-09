@@ -1,21 +1,25 @@
 import pandas as pd
 from datetime import datetime
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
+from database.connect import get_oracle_connection  # your working Thin mode connection
 
 def run_budget_vs_actual_variance(
-    data_dir="accounting-suite/data",
-    output_dir="accounting-suite/data/outputs"
+    output_dir="accounting-suite/database/data/outputs"
 ):
     os.makedirs(output_dir, exist_ok=True)
-
-    budget_file = f"{data_dir}/budget.csv"
-    actuals_file = f"{data_dir}/actuals.csv"
     date_tag = datetime.now().strftime("%Y-%m-%d")
-    output_file = f"{output_dir}/gl_vs_ap_match_report_{date_tag}.csv"
+    output_file = f"{output_dir}/budget_vs_actual_match_report_{date_tag}.csv"
 
-    # Load GL and AP files
-    budget_df = pd.read_csv(budget_file)
-    actuals_df = pd.read_csv(actuals_file)
+    # Load from database
+    conn = get_oracle_connection()
+    actuals_df = pd.read_sql("SELECT id, cost_center, account, amount FROM actuals", conn)
+    actuals_df.columns = actuals_df.columns.str.lower()  # <-- normalize case
+    budget_df = pd.read_sql("SELECT id, cost_center, account, amount FROM budget", conn)
+    budget_df.columns = budget_df.columns.str.lower()  # <-- normalize case
+    conn.close()
 
     # No status filter — compare all AP entries
     # Align both datasets to compare top N rows equally
@@ -58,4 +62,5 @@ def run_budget_vs_actual_variance(
         "output_file": output_file
     }
 
-
+if __name__ == "__main__":
+    run_budget_vs_actual_variance()
