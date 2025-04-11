@@ -2,29 +2,29 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from gl_vs_ap import run_gl_vs_ap_reconciliation
-from bank_vs_book import run_bank_vs_book_reconciliation
-from variance_budget_actual import run_budget_vs_actual_variance
+from gl_vs_ap import download_gl_vs_ap
+from bank_vs_book import download_bank_vs_book
+from variance_budget_actual import download_budget_vs_actual
 
 from tabulate import tabulate
 import pandas as pd
 import numpy as np 
 import matplotlib.pyplot as plt
 
-def run_all_modules():
+def build_charts():
     os.makedirs("accounting-suite/database/data/outputs", exist_ok=True)
 
     summary = []
 
     # === GL vs AP Reconciliation ===
-    gl_ap = run_gl_vs_ap_reconciliation()
+    gl_ap = download_gl_vs_ap()
     summary.append([
         "GL vs AP",
-        gl_ap['matched'],
-        gl_ap['mismatched']
+        gl_ap['matched_count'],
+        gl_ap['unmatched_count']
     ])
 
-    bank_book = run_bank_vs_book_reconciliation()
+    bank_book = download_bank_vs_book()
     summary.append([
         "Bank vs Book",
         bank_book['matched_count'],
@@ -33,23 +33,17 @@ def run_all_modules():
     ])
 
     # === Budget vs Actuals Variance ===
-    budget = run_budget_vs_actual_variance()
+    budget = download_budget_vs_actual()
     summary.append([
         "Budget vs Actual",
-        budget['matched'],
-        budget['mismatched']
+        budget['matched_count'],
+        budget['unmatched_count']
        
     ])
 
     # === Print as Table ===
     print("\n📊 Reconciliation Summary\n")
     print(tabulate(summary, headers=["Module", "Matched", "Unmatched/Flagged"], tablefmt="grid"))
-
-    # === Save as CSV ===
-    summary_df = pd.DataFrame(summary, columns=["Module", "Matched", "Unmatched/Flagged"])
-    csv_path = "accounting-suite/database/data/outputs/summary_report.csv"
-    summary_df.to_csv(csv_path, index=False)
-    
     
     # === Bar Chart ===
     show_bar_chart(summary)
@@ -100,4 +94,4 @@ def show_table(data):
     }
 
 if __name__ == "__main__":
-    run_all_modules()
+    build_charts()

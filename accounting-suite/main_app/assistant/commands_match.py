@@ -6,19 +6,17 @@ import io
 import contextlib
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
-
-from generate_match_file.match_book_bank import match_book_cash_from_bank
-from generate_match_file.match_budget_actual import match_generate_budgets
-from generate_match_file.match_gl_ap import match_generate_gl_entries_from_ap
+from database.generate_match_file.match_book_bank import call_match_book
+from database.generate_match_file.match_budget_actual import call_match_budget
+from database.generate_match_file.match_gl_ap import call_match_gl
 
 def match_bank_and_book():
     try:
         with io.StringIO() as buf, contextlib.redirect_stdout(buf):
-            result = match_book_cash_from_bank()
-            file_url="/static/outputs/match_book_cash.csv"
+            result = call_match_book()
+            file_url=result
         return (
             f"✅ Book cash now matches bank transactions.\n"
-            f"- Rows copied: {result['rows_written']}\n"
             f"<a href='{file_url}' download>📥 Download updated CSV</a>"
         )
     except Exception as e:
@@ -27,32 +25,30 @@ def match_bank_and_book():
 def match_budget_and_actual():
     try:
         with io.StringIO() as buf, contextlib.redirect_stdout(buf):
-            result = match_generate_budgets()
-            file_url="/static/outputs/match_budget.csv"
+            result = call_match_budget()
+            file_url=result
         return (
             f"✅ Budget now matches actual transactions.\n"
-            f"- Rows copied: {result['rows_written']}\n"
             f"<a href='{file_url}' download>📥 Download updated CSV</a>"
         )
     except Exception as e:
-        return f"❌ Failed to match book to bank: {e}"
+        return f"❌ Failed to match budget to actual: {e}"
     
 def match_gl_and_ap():
     try:
         with io.StringIO() as buf, contextlib.redirect_stdout(buf):
-            result = match_generate_gl_entries_from_ap()
-            file_url="/static/outputs/match_gl.csv"
+            result = call_match_gl()
+            file_url=result
         return (
             f"✅ Gl now matches ap transactions.\n"
-            f"- Rows copied: {result['rows_written']}\n"
             f"<a href='{file_url}' download>📥 Download updated CSV</a>"
         )
     except Exception as e:
-        return f"❌ Failed to match book to bank: {e}"
+        return f"❌ Failed to match gl to ap: {e}"
 
 if __name__ == "__main__":
     print("🧪 Testing bank vs book reconciliation...\n")
-    msg = match_book_cash_from_bank()
+    msg = match_bank_and_book()
     print(msg)
 
 

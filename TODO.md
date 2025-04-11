@@ -117,10 +117,10 @@ A clear plan to evolve from a local CSV-based reconciliation app to an AI-driven
 
 🧱 Goal: Create a real database backend to replace CSVs:
 
-- [ ] Use Oracle XE or local Docker Oracle
-- [ ] Create tables that match `data/*.csv` schemas
-- [ ] Import existing CSVs into those tables
-- [ ] Validate data and allow SELECT queries
+- [x] Use Oracle XE or local Docker Oracle
+- [x] Create tables that match `data/*.csv` schemas
+- [x] Import existing CSVs into those tables
+- [x] Validate data and allow SELECT queries
 
 📌 This sets the stage for enterprise-scale data reconciliation.
 
@@ -130,9 +130,9 @@ A clear plan to evolve from a local CSV-based reconciliation app to an AI-driven
 
 🧠 Now teach the assistant to:
 
-- [ ] Use SQLAlchemy or cx_Oracle to connect to Oracle DB
-- [ ] Fetch data from tables instead of reading CSVs
-- [ ] Print that data to prove access works
+- [ x] Use SQLAlchemy or cx_Oracle to connect to Oracle DB
+- [ x] Fetch data from tables instead of reading CSVs
+- [ x] Print that data to prove access works
 
 📌 Verifies that the AI can talk to your actual accounting backend.
 
@@ -142,13 +142,20 @@ A clear plan to evolve from a local CSV-based reconciliation app to an AI-driven
 
 The final level: make the AI fix Oracle data!
 
-- [ ] AI compares Oracle data across modules
-- [ ] Suggests or applies changes via SQL UPDATE
-- [ ] All changes logged to `oracle_logs/ai_fixes.sql`
-- [ ] Can run in sandbox mode before committing
+- [ x] AI compares Oracle data across modules
+- [ x] Suggests or applies changes via SQL UPDATE
+- [ x] All changes logged to `oracle_logs/ai_fixes.sql`
+
 
 📌 This is the full AI + DB + App loop — the vision of self-healing accounting pipelines.
 
 ---
+
+
+
+##   Phase 8: AI can make new dataset
+- [] 
+- []
+- []
 
 
