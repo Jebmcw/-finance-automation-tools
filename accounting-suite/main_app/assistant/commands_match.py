@@ -13,8 +13,8 @@ from database.generate_match_file.match_gl_ap import call_match_gl
 def match_bank_and_book():
     try:
         with io.StringIO() as buf, contextlib.redirect_stdout(buf):
-            result = call_match_book()
-            file_url=result
+            token = call_match_book()
+            file_url=f"/download/{token}"
         return (
             f"✅ Book cash now matches bank transactions.\n"
             f"<a href='{file_url}' download>📥 Download updated CSV</a>"

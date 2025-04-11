@@ -1,103 +1,151 @@
-# 📊 Accounting Reconciliation & Reporting Suite
+# 💼 Finance Automation & AI Reconciliation Suite
 
-A modular Python project that simulates enterprise-level accounting reconciliation workflows using mock datasets. Designed to reduce manual effort, improve transparency, and build a strong foundation for future automation and AI integration.
-
----
-
-## 📁 Project Structure
-
-
-
-## ✅ Features
-
-- **GL vs AP Reconciliation**  
-  Match general ledger entries against posted accounts payable totals.
-
-- **Bank vs Book Reconciliation**  
-  Match internal cash records with external bank transactions based on date and amount tolerances.
-
-- **Budget vs Actual Variance**  
-  Compare budgeted vs actual spend by account, cost center, and period. Flags large variances.
-
-- **One-click Automation (`main.py`)**  
-  Runs all reconciliations and outputs a table summary, CSV report, and variance chart.
+An end-to-end, AI-enhanced accounting system that reads CSVs, syncs data to Oracle, runs reconciliation logic, and visualizes mismatches with downloadable charts. Includes a full web-based chatbot assistant powered by OpenAI and Flask.
 
 ---
 
-## 🚀 How to Run
+## 📦 Features
 
-1. Clone the repo and navigate to the root.
-2. (Optional) Create a virtual environment.
-3. Install dependencies:
+- 🔁 **Automated Reconciliation**
+  - GL vs AP
+  - Bank vs Book
+  - Budget vs Actuals
 
-```bash
-pip install -r requirements.txt
+- 🧠 **AI Assistant (Chat-Based)**
+  - Natural language prompt → system action
+  - Automatically triggers data sync, analysis, and CSV downloads
+  - OpenAI-powered classifier routes requests
+
+- 🗃 **Oracle Integration**
+  - Loads, stores, and reconciles data in real Oracle tables
+  - SQL scripts automatically run table setup and inserts
+  - Thin or Thick mode connection supported
+
+- 📊 **Charts + Reports**
+  - Bar chart and summary table saved to `/static/pictures`
+  - All reconciliation mismatches downloadable as CSV
+
+- 🌐 **Flask Web App**
+  - Clean HTML/CSS chat interface
+  - `/` to chat, `/clear` to reset
+  - Assistant prints actions, links, and images
+
+---
+
+## 🧱 Project Structure
+
+```
+.
+├── accounting-suite/
+│   ├── data/                # Synthetic data files
+│   ├── schema/              # SQL schema for Oracle tables
+│   ├── generate_data_*.py   # Data simulators
+│   ├── match_*.py           # Table generation and Oracle loading
+│   ├── load_*.py            # CSV-to-Oracle loaders
+│   ├── variance_budget_actual.py  # Budget variance logic
+│   ├── gl_vs_ap.py, bank_vs_book.py  # Reconciliation logic
+│   └── main.py              # Full chart/table summary generator
+│
+├── assistant/
+│   ├── chat_bot.py
+│   ├── prompt_router.py
+│   ├── commands_match.py
+│   ├── commands_chart.py
+│   └── commands_reconcile.py
+│
+├── templates/
+│   └── chat.html            # Chatbot frontend (Flask)
+├── static/
+│   ├── style.css
+│   └── pictures/
+│       ├── reconciliation_chart.png
+│       └── summary_table.png
+│
+├── connect.py               # Oracle DB connector
+├── app.py                   # Flask server
+└── TODO.md                  # Completed roadmap
 ```
 
-4. Run everything in one go:
+---
+
+## ⚙️ Getting Started
+
+### 1. Install Dependencies
 
 ```bash
-python app/main.py
+pip install pandas openai flask python-dotenv matplotlib tabulate oracledb
+```
+
+### 2. Set Up Oracle Credentials
+
+Update `config/db.env`:
+
+```
+ORACLE_USER=your_user
+ORACLE_PASS=your_pass
+ORACLE_CONNECT_STRING=your_db_low
+ORACLE_WALLET_PATH=path_to_wallet
+ORACLE_CLIENT_PATH=instantclient_dir
+USE_THICK_MODE=true
+OPENAI_API_KEY=your_openai_key
+```
+
+### 3. Run Everything
+
+```bash
+# Generate CSVs
+python generate_data_ap_entries.py
+...
+
+# Load into Oracle
+python load_ap_entries.py
+...
+
+# Match + Reconcile + Chart
+python main.py
 ```
 
 ---
 
-## 📦 Outputs
+## 💬 Web Assistant (AI Chat)
 
-- 📁 `data/outputs/`  
-  Contains CSV files for mismatches, variances, and the summary report.
+```bash
+python app.py
+```
 
-- 📁 `data/pictures/`  
-  Contains saved charts (e.g. reconciliation_chart.png)
-
----
-
-## 📅 Sprint 1 Checklist
-
-| Task                       | Status |
-|----------------------------|--------|
-| Data Generation Scripts    | ✅     |
-| GL vs AP Reconciliation    | ✅     |
-| Bank vs Book Reconciliation| ✅     |
-| Budget vs Actual Variance  | ✅     |
-| One-click Runner (main.py) | ✅     |
-| Summary Report & Chart     | ✅     |
+Visit: [http://localhost:5000](http://localhost:5000)
 
 ---
 
-### 💡 Future Add-ons & AI Roadmap
-## 🔧 Phase 1: Local AI Assistant (CSV-based)
-- Reads datasets from the codebase (data/*.csv)
-- Compares, detects mismatches, and auto-aligns values across related files
-- Generates detailed mismatch reports and corrections
+## 🧪 Sample Commands
 
-## 🛢️ Phase 2: Oracle DB Integration
-- Mirror all CSV structures as Oracle tables
-- Load CSVs into Oracle via Python or SQL*Loader
-- AI shifts from file-based reconciliation to querying Oracle directly
-- Automatically updates mismatched records inside the database
-
-## 🧠 Phase 3: Intelligent Correction Engine
-- AI assistant explains why mismatches occurred
-- Offers human-readable reasoning before correction
-- Writes back changes with logs and traceability
-
-## 📊 Optional Future UI
-- Power BI for dashboards
-- Flask or React frontend for local interaction
-- Button-based execution and reporting interface
+- `compare budget to actual`
+- `gl and ap`
+- `match bank to book`
+- `print the summary table`
+- `overwrite book with bank`
 
 ---
 
-## 🤝 Contact
+## ✅ Current Status
 
-For questions or feedback: *[Your Name or GitHub handle]*  
-
+You built:
+- [x] Oracle-backed data loaders
+- [x] Reconciliation logic
+- [x] Chart/table report generators
+- [x] Chat assistant w/ NLP routing
+- [x] Full Flask frontend
+- [x] GPT-powered classifier
 
 ---
 
-## 📈 Sample Output Chart
+## 🔮 Next Steps
 
-This chart shows the number of unmatched or flagged records from each module:
+- [ ] Dataset diff viewer in Flask UI
+- [ ] Logging of auto-corrections (CSV + SQL)
+- [ ] NLP summary: "why" mismatches happened
+- [ ] Dockerize + deploy as internal audit tool
 
-![Reconciliation Chart](accounting-suite/data/pictures/reconciliation_chart.png)
+---
+
+Built by a developer who refuses to manually match a single spreadsheet row ever again.

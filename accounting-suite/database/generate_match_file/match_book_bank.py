@@ -83,17 +83,23 @@ def match_generate_book():
 
 def call_match_book():
     conn = get_oracle_connection()
-    match_book_df = pd.read_sql("SELECT id, bank_account, txn_date, amount, description, cleared_flag FROM NEW_BOOK_2025_04_10", conn)
-    conn.close()
-    match_book_df.columns = match_book_df.columns.str.lower()
 
-    # Save to temp file
-    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".csv", prefix="match_book_", mode='w', newline='', encoding='utf-8')
-    match_book_df.to_csv(tmp.name, index=False)
+    df = pd.read_sql(
+        "SELECT id, bank_account, txn_date, amount, description, cleared_flag FROM NEW_BOOK_2025_04_10", 
+        conn
+    )
+    conn.close()
+
+    if df.empty:
+        raise ValueError("Query returned no rows!")
+
+    df.columns = df.columns.str.lower()
+
+    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode='w', newline='', encoding='utf-8')
+    df.to_csv(tmp.name, index=False)
     tmp.close()
 
-    print(f"📎 File ready to download at: {tmp.name}")
-    return tmp.name
+    return tmp.name  # or token if you're mapping it to a UUID
 
 if __name__ == "__main__":
 
